@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Est. Sakrand, Sindh</div>
+    <h1>Inspiring Minds,<br><span>Building Futures</span></h1>
+    <p class="hero-tag">"Dream Big &bull; Work Hard &bull; Become a Doctor"</p>
+    <div class="hero-btns">
+      <button class="btn-gold" onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'})">View Courses</button>
+      <button class="btn-outline" onclick="document.getElementById('scholarship').scrollIntoView({behavior:'smooth'})">Scholarship Test</button>
+    </div>
+  </div>
+  <div class="hero-img-wrap">
+    <div class="gold-ring"></div>
+    <img class="hero-logo-big" src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Haniya Academy Logo">
+  </div>
+</section>
+
+<!-- COURSES: rendered from the `courses` table via a SELECT ... ORDER BY query -->
+<section class="courses" id="courses">
+  <div class="section-head">
+    <h2>Our Programs</h2>
+    <p>Courses designed for MDCAT & ECAT success</p>
+    <div class="gold-line"></div>
+  </div>
+  <div class="courses-grid">
+    {% for c in courses %}
+      <div class="course-card">
+        <div class="course-icon">📘</div>
+        <h3>{{ c.title }}</h3>
+        <p>{{ c.description }}</p>
+        <span class="course-tag">{{ c.duration }} &bull; Rs. {{ c.fee }}</span>
+      </div>
+    {% else %}
+      <p>No courses added yet. Add some from the admin panel.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- FACULTY: rendered from the `faculty` table -->
+<section class="faculty" id="faculty">
+  <div class="section-head">
+    <h2>Our Faculty</h2>
+    <p>Experienced teachers guiding every student</p>
+    <div class="gold-line"></div>
+  </div>
+  <div class="faculty-grid">
+    {% for f in faculty %}
+      <div class="faculty-card">
+        <img class="faculty-photo" src="{{ f.photo_url or url_for('static', filename='images/placeholder.jpg') }}" alt="{{ f.full_name }}">
+        <h3>{{ f.full_name }}</h3>
+        <div class="faculty-subject">{{ f.subject }}</div>
+        <p class="faculty-qual">{{ f.designation }}</p>
+      </div>
+    {% else %}
+      <p>No faculty added yet.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- GALLERY: rendered from the `gallery` table -->
+<section class="gallery" id="gallery">
+  <div class="section-head">
+    <h2>Academy Gallery</h2>
+    <p>Moments from our classrooms and events</p>
+    <div class="gold-line"></div>
+  </div>
+  <div class="gallery-grid">
+    {% for g in gallery %}
+      <div class="gallery-item">
+        <img src="{{ g.image_url }}" alt="{{ g.caption }}">
+        {% if g.caption %}<div class="gallery-caption">{{ g.caption }}</div>{% endif %}
+      </div>
+    {% else %}
+      <p>No gallery images yet.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ACHIEVERS: rendered from the `achievers` table -->
+<section class="achievers" id="achievers">
+  <div class="section-head">
+    <h2>Our Top MDCAT Achievers</h2>
+    <p>Celebrating our star performers</p>
+    <div class="gold-line"></div>
+  </div>
+  <div class="achievers-grid">
+    {% for a in achievers %}
+      <div class="achiever-card">
+        <img src="{{ a.photo_url or url_for('static', filename='images/placeholder.jpg') }}" alt="{{ a.full_name }}">
+        <h4>{{ a.full_name }}</h4>
+        <p>{{ a.score }} &mdash; {{ a.year }}</p>
+      </div>
+    {% else %}
+      <p>No achievers added yet.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ENROLL FORM: writes into students + enrollments tables -->
+<section class="enroll" id="enroll">
+  <h2>Enroll or Register for Scholarship Test</h2>
+  <p>Fill the form below to reserve your seat</p>
+  <form class="enroll-form" method="POST" action="{{ url_for('public.enroll') }}">
+    <input type="text" name="roll_number" placeholder="Roll Number" required>
+    <input type="text" name="full_name" placeholder="Full Name" required>
+    <input type="text" name="father_name" placeholder="Father's Name">
+    <input type="text" name="phone" placeholder="Phone">
+    <input type="email" name="email" placeholder="Email">
+    <select name="course_id" required>
+      <option value="">Select a Course</option>
+      {% for c in courses %}
+        <option value="{{ c.course_id }}">{{ c.title }}</option>
+      {% endfor %}
+    </select>
+    <input type="password" name="password" placeholder="Choose a portal password" required>
+    <button type="submit">Submit</button>
+  </form>
+</section>
+
+<!-- CONTACT FORM: writes into contact_messages table -->
+<section class="contact" id="contact">
+  <div class="section-head">
+    <h2>Contact Us</h2>
+    <p>We'd love to hear from you</p>
+    <div class="gold-line"></div>
+  </div>
+  <form class="enroll-form" style="margin-top:10px;" method="POST" action="{{ url_for('public.contact') }}">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email">
+    <input type="text" name="phone" placeholder="Your Phone">
+    <textarea name="message" placeholder="Your Message" required rows="4" style="padding:13px 16px;border-radius:8px;border:none;background:rgba(255,255,255,0.95);font-size:14px;font-family:'DM Sans',sans-serif;"></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+  <p style="margin-top:16px;"><a href="https://wa.me/923471601209" target="_blank" style="color:var(--navy);font-weight:600;">Chat on WhatsApp</a></p>
+</section>
+
+{% endblock %}

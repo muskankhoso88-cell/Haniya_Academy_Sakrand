@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dash-page">
+  <h2>Admin Dashboard</h2>
+  <a class="back-link" href="{{ url_for('admin.logout') }}">Logout</a>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-num">{{ stats.courses }}</div>
+      <div class="stat-label">Courses</div>
+      <a href="{{ url_for('admin.courses_list') }}">Manage &rarr;</a>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ stats.faculty }}</div>
+      <div class="stat-label">Faculty</div>
+      <a href="{{ url_for('admin.faculty_list') }}">Manage &rarr;</a>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ stats.achievers }}</div>
+      <div class="stat-label">Achievers</div>
+      <a href="{{ url_for('admin.achievers_list') }}">Manage &rarr;</a>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ stats.gallery }}</div>
+      <div class="stat-label">Gallery Images</div>
+      <a href="{{ url_for('admin.gallery_list') }}">Manage &rarr;</a>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ stats.pending_enrollments }}</div>
+      <div class="stat-label">Pending Enrollments</div>
+      <a href="{{ url_for('admin.enrollments_list') }}">Manage &rarr;</a>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ stats.unread_messages }}</div>
+      <div class="stat-label">Unread Messages</div>
+      <a href="{{ url_for('admin.messages_list') }}">View &rarr;</a>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ stats.active_students }}</div>
+      <div class="stat-label">Active Students</div>
+      <a href="{{ url_for('admin.students_list') }}">Manage &rarr;</a>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ stats.teachers }}</div>
+      <div class="stat-label">Teachers</div>
+      <a href="{{ url_for('admin.teachers_list') }}">Manage &rarr;</a>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">&#128203;</div>
+      <div class="stat-label">Results</div>
+      <a href="{{ url_for('admin.results_list') }}">Manage &rarr;</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dash-page">
+  <h2>Attendance &mdash; {{ course.title }}</h2>
+  <a class="back-link" href="{{ url_for('teacher.dashboard') }}">&larr; Back to Dashboard</a>
+
+  <form method="POST">
+    <div class="dash-form">
+      <label>Date: <input type="date" name="attendance_date" value="{{ today }}"></label>
+    </div>
+    <div class="table-wrap">
+      <table class="dash-table">
+        <tr><th>Roll No.</th><th>Name</th><th>Present</th><th>Absent</th><th>Leave</th></tr>
+        {% for e in enrollments %}
+        <tr>
+          <td>{{ e.student.roll_number }}</td>
+          <td>{{ e.student.full_name }}</td>
+          <td><input type="radio" name="status_{{ e.student.student_id }}" value="present" checked></td>
+          <td><input type="radio" name="status_{{ e.student.student_id }}" value="absent"></td>
+          <td><input type="radio" name="status_{{ e.student.student_id }}" value="leave"></td>
+          <input type="hidden" name="student_id" value="{{ e.student.student_id }}">
+        </tr>
+        {% else %}
+        <tr><td colspan="5">No active students enrolled in this course.</td></tr>
+        {% endfor %}
+      </table>
+    </div>
+    <button type="submit" class="btn-gold-sm" style="margin-top:16px;">Save Attendance</button>
+  </form>
+</div>
+{% endblock %}

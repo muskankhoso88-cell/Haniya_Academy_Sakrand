@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dash-page">
+  <h2>Manage Gallery</h2>
+  <a class="back-link" href="{{ url_for('admin.dashboard') }}">&larr; Back to Dashboard</a>
+
+  <form class="dash-form" method="POST" action="{{ url_for('admin.gallery_add') }}">
+    <input type="text" name="image_url" placeholder="Image URL" required>
+    <input type="text" name="caption" placeholder="Caption">
+    <input type="number" name="display_order" placeholder="Display Order">
+    <button type="submit">Add Image</button>
+  </form>
+
+  <div class="table-wrap">
+    <table class="dash-table">
+      <tr><th>Image</th><th>Caption</th><th></th></tr>
+      {% for g in images %}
+      <tr>
+        <td><img src="{{ g.image_url }}" alt=""></td>
+        <td>{{ g.caption }}</td>
+        <td>
+          <form method="POST" action="{{ url_for('admin.gallery_delete', image_id=g.image_id) }}" style="display:inline;">
+            <button type="submit" class="btn-sm btn-sm-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

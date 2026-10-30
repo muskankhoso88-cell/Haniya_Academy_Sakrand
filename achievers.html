@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dash-page">
+  <h2>Manage Achievers</h2>
+  <a class="back-link" href="{{ url_for('admin.dashboard') }}">&larr; Back to Dashboard</a>
+
+  <form class="dash-form" method="POST" action="{{ url_for('admin.achievers_add') }}">
+    <input type="text" name="full_name" placeholder="Full Name" required>
+    <input type="text" name="score" placeholder="Score (e.g. 195/200)">
+    <input type="number" name="year" placeholder="Year">
+    <input type="text" name="photo_url" placeholder="Photo URL">
+    <input type="number" name="display_order" placeholder="Display Order">
+    <button type="submit">Add Achiever</button>
+  </form>
+
+  <div class="table-wrap">
+    <table class="dash-table">
+      <tr><th>Photo</th><th>Name</th><th>Score</th><th>Year</th><th></th></tr>
+      {% for a in achievers %}
+      <tr>
+        <td><img src="{{ a.photo_url or url_for('static', filename='images/placeholder.jpg') }}" alt=""></td>
+        <td>{{ a.full_name }}</td>
+        <td>{{ a.score }}</td>
+        <td>{{ a.year }}</td>
+        <td>
+          <form method="POST" action="{{ url_for('admin.achievers_delete', achiever_id=a.achiever_id) }}" style="display:inline;">
+            <button type="submit" class="btn-sm btn-sm-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

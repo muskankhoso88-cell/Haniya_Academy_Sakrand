@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Haniya Academy Sakrand{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo" class="nav-logo">
+    <div class="nav-name">
+      <h1>Haniya Academy</h1>
+      <p>Sakrand</p>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="{{ url_for('public.home') }}#about">About</a>
+    <a href="{{ url_for('public.home') }}#scholarship">Scholarship</a>
+    <a href="{{ url_for('public.home') }}#courses">Courses</a>
+    <a href="{{ url_for('public.home') }}#faculty">Faculty</a>
+    <a href="{{ url_for('public.home') }}#gallery">Gallery</a>
+    <a href="{{ url_for('portal.login') }}">Student Portal</a>
+    <a href="{{ url_for('teacher.login') }}">Teacher Portal</a>
+    <a href="{{ url_for('public.home') }}#contact">Contact</a>
+  </div>
+  <button class="nav-btn" onclick="document.getElementById('enroll').scrollIntoView({behavior:'smooth'})">Enroll Now</button>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div style="max-width:800px;margin:16px auto;padding:0 20px;">
+    {% for category, message in messages %}
+      <div class="flash-msg {{ 'flash-error' if category=='error' else 'flash-success' }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+{% block content %}{% endblock %}
+
+<footer>
+  <div><div class="footer-name">Haniya Academy Sakrand</div><div class="footer-tag">Inspiring Minds, Building Futures</div></div>
+  <p>&copy; 2025 Haniya Academy Sakrand. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dash-page">
+  <h2>Manage Students</h2>
+  <a class="back-link" href="{{ url_for('admin.dashboard') }}">&larr; Back to Dashboard</a>
+
+  <div class="table-wrap">
+    <table class="dash-table">
+      <tr><th>Roll No.</th><th>Name</th><th>Phone</th><th>Status</th><th></th></tr>
+      {% for s in students %}
+      <tr>
+        <td>{{ s.roll_number }}</td>
+        <td>{{ s.full_name }}</td>
+        <td>{{ s.phone }}</td>
+        <td><span class="badge badge-{{ 'active' if s.is_active else 'inactive' }}">{{ "Active" if s.is_active else "Inactive" }}</span></td>
+        <td>
+          {% if s.is_active %}
+          <form method="POST" action="{{ url_for('admin.students_deactivate', student_id=s.student_id) }}" style="display:inline;"
+                onsubmit="return confirm('Mark {{ s.full_name }} as inactive? Their data stays saved, they just won\'t appear as an active student and won\'t be able to log in.');">
+            <button type="submit" class="btn-sm btn-sm-danger">Mark Inactive</button>
+          </form>
+          {% else %}
+          <form method="POST" action="{{ url_for('admin.students_reactivate', student_id=s.student_id) }}" style="display:inline;">
+            <button type="submit" class="btn-sm">Reactivate</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <p class="muted-note">
+    "Mark Inactive" is a soft delete — it never removes the student's results, attendance,
+    or enrollment history from the database. It only hides them from active lists and blocks portal login.
+  </p>
+</div>
+{% endblock %}

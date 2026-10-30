@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dash-page">
+  <h2>Enrollments</h2>
+  <a class="back-link" href="{{ url_for('admin.dashboard') }}">&larr; Back to Dashboard</a>
+  <div class="table-wrap">
+    <table class="dash-table">
+      <tr><th>Student</th><th>Course</th><th>Date</th><th>Status</th><th>Update</th></tr>
+      {% for e in enrollments %}
+      <tr>
+        <td>{{ e.student.full_name }} ({{ e.student.roll_number }})</td>
+        <td>{{ e.course.title }}</td>
+        <td>{{ e.enrollment_date }}</td>
+        <td><span class="badge badge-{{ e.status }}">{{ e.status }}</span></td>
+        <td>
+          <form method="POST" action="{{ url_for('admin.enrollments_update_status', enrollment_id=e.enrollment_id) }}" style="display:inline;">
+            <select name="status">
+              <option value="pending" {% if e.status=='pending' %}selected{% endif %}>Pending</option>
+              <option value="confirmed" {% if e.status=='confirmed' %}selected{% endif %}>Confirmed</option>
+              <option value="rejected" {% if e.status=='rejected' %}selected{% endif %}>Rejected</option>
+            </select>
+            <button type="submit" class="btn-sm">Save</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}
